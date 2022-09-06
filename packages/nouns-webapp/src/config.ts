@@ -17,7 +17,7 @@ interface AppConfig {
   enableHistory: boolean;
 }
 
-type SupportedChains = ChainId.Rinkeby | ChainId.Mainnet | ChainId.Hardhat;
+type SupportedChains = ChainId.Rinkeby | ChainId.Polygon | ChainId.Hardhat;
 
 interface CacheBucket {
   name: string;
@@ -47,12 +47,12 @@ const INFURA_PROJECT_ID = process.env.REACT_APP_INFURA_PROJECT_ID;
 
 export const createNetworkHttpUrl = (network: string): string => {
   const custom = process.env[`REACT_APP_${network.toUpperCase()}_JSONRPC`];
-  return custom || `https://${network}.infura.io/v3/${INFURA_PROJECT_ID}`;
+  return custom || `https://polygon-mainnet.g.alchemy.com/v2/${INFURA_PROJECT_ID}`;
 };
 
 export const createNetworkWsUrl = (network: string): string => {
   const custom = process.env[`REACT_APP_${network.toUpperCase()}_WSRPC`];
-  return custom || `wss://${network}.infura.io/ws/v3/${INFURA_PROJECT_ID}`;
+  return custom || `wss://polygon-mainnet.g.alchemy.com/v2/${INFURA_PROJECT_ID}`;
 };
 
 const app: Record<SupportedChains, AppConfig> = {
@@ -62,10 +62,10 @@ const app: Record<SupportedChains, AppConfig> = {
     subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph-rinkeby-v5',
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true',
   },
-  [ChainId.Mainnet]: {
-    jsonRpcUri: createNetworkHttpUrl('mainnet'),
-    wsRpcUri: createNetworkWsUrl('mainnet'),
-    subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/nounsdao/nouns-subgraph',
+  [ChainId.Polygon]: {
+    jsonRpcUri: createNetworkHttpUrl('polygon'),
+    wsRpcUri: createNetworkWsUrl('polygon'),
+    subgraphApiUri: 'https://api.thegraph.com/subgraphs/name/lypheal/nouns-subgraph',
     enableHistory: process.env.REACT_APP_ENABLE_HISTORY === 'true',
   },
   [ChainId.Hardhat]: {
@@ -80,7 +80,7 @@ const externalAddresses: Record<SupportedChains, ExternalContractAddresses> = {
   [ChainId.Rinkeby]: {
     lidoToken: '0xF4242f9d78DB7218Ad72Ee3aE14469DBDE8731eD',
   },
-  [ChainId.Mainnet]: {
+  [ChainId.Polygon]: {
     lidoToken: '0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84',
   },
   [ChainId.Hardhat]: {
@@ -92,7 +92,7 @@ const getAddresses = (): ContractAddresses => {
   let nounsAddresses = {} as NounsContractAddresses;
   try {
     nounsAddresses = getContractAddressesForChainOrThrow(CHAIN_ID);
-  } catch {}
+  } catch { }
   return { ...nounsAddresses, ...externalAddresses[CHAIN_ID] };
 };
 

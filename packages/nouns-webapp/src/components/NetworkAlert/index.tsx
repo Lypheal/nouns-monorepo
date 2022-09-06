@@ -3,8 +3,8 @@ import { CHAIN_ID } from '../../config';
 
 const networkName = () => {
   switch (Number(CHAIN_ID)) {
-    case 1:
-      return 'Ethereum Mainnet';
+    case 137:
+      return 'Polygon Mainnet';
     case 4:
       return 'the Rinkeby network';
     default:
@@ -14,8 +14,8 @@ const networkName = () => {
 
 const metamaskNetworkName = () => {
   switch (Number(CHAIN_ID)) {
-    case 1:
-      return 'Ethereum Mainnet';
+    case 137:
+      return 'Polygon Mainnet';
     case 4:
       return 'Rinkeby Test Network';
     default:
